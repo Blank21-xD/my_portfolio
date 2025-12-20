@@ -55,12 +55,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# --- UPDATED DATABASE SECTION ---
-# This looks for DATABASE_URL on Render. If not found, it uses local SQLite.
+# --- DATABASE CONFIGURATION (The "Fix") ---
+# Explicitly using the new postgresql engine for psycopg 3 compatibility
 DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600
+        conn_max_age=600,
+        engine='django.db.backends.postgresql'
     )
 }
 
@@ -83,7 +84,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- UPDATED EMAIL SECTION ---
+# --- EMAIL CONFIGURATION ---
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -92,8 +93,6 @@ EMAIL_USE_SSL = False
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
-
-# Stops the "Internal Server Error" crash if Gmail is slow
 EMAIL_TIMEOUT = 10
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
