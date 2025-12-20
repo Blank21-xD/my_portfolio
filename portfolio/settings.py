@@ -2,6 +2,7 @@
 Django settings for portfolio project.
 """
 
+from django.contrib.auth import get_user_model
 import os
 from pathlib import Path
 from dotenv import load_dotenv  # Added this import
@@ -133,3 +134,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
+
+User = get_user_model()
+if not User.objects.filter(username='Blank').exists():
+    User.objects.create_superuser('Blank', 'admin@example.com', 'WaterxD21')
