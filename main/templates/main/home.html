@@ -1,39 +1,154 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safal Lama | Django Developer Portfolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Safal Lama | Django Developer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
 </head>
 
-<body>
+<body class="bg-light">
 
-    <header class="text-center py-5 bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container">
-            <h1 class="display-4"> Hello! This is Safal Lama, A guy who likes to code. </h1>
-            <p class="lead text-muted">A passionate young lad focused on Full-Stack Development.</p>
+            <a class="navbar-brand fw-bold" href="#">SAFAL LAMA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto text-center">
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="text-center bg-white border-bottom px-3">
+        <div class="container">
+            <h1 class="display-3 fw-bold">Hello! I'm Safal Lama.</h1>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                A passionate Full-Stack Developer specializing in building robust web applications with Django.
+            </p>
         </div>
     </header>
 
-    <section id="about" class="container py-5">
-        <h2 class="text-center mb-4"> About Me:</h2>
-        <h3 class="lead text-center mb-5"> Building robust and scalable full-stack web application designer </h3>
+    <section id="about" class="container text-center">
+        <h2 class="display-5 fw-bold text-center">About Me</h2>
+        <h3 class="h5 text-muted px-3 fw-normal">Robust and scalable full-stack web application designer</h3>
+
+        <p class="familiar-text">Familiar with:</p>
+
+        <div class="d-flex flex-wrap justify-content-center">
+            <span class="badge bg-primary"><i class="fab fa-python me-2"></i> Python</span>
+            <span class="badge bg-success"><i class="fas fa-server me-2"></i> Django</span>
+            <span class="badge bg-danger"><i class="fab fa-html5 me-2"></i> HTML5</span>
+            <span class="badge bg-info text-dark"><i class="fab fa-css3-alt me-2"></i> CSS3</span>
+            <span class="badge bg-warning text-dark"><i class="fab fa-js me-2"></i> JavaScript</span>
+        </div>
     </section>
 
-    <section id="projects" class="container py-5 bg-white">
-        <h2 class="text-center"> My Projects</h2>
+    <section id="projects" class="bg-white">
+        <div class="container">
+            <h2 class="display-5 fw-bold text-center">My Projects</h2>
+            <div class="row g-4 mt-2">
+
+                {% for project in projects %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body p-4 d-flex flex-column text-center">
+                            <h5 class="card-title fw-bold">{{ project.title }}</h5>
+                            <p class="card-text text-muted small">{{ project.description }}</p>
+                            <div class="mt-auto">
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <span class="badge bg-light text-dark border mb-3">{{ project.technology }}</span>
+                                </div>
+
+                                {% if project.github_link %}
+                                <a href="{{ project.github_link }}" target="_blank"
+                                    class="btn btn-sm btn-dark w-100 py-2">
+                                    <i class="fab fa-github me-1"></i> View Source
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if projects.count < 3 %} <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 bg-light text-center border-dashed">
+                        <div class="card-body d-flex flex-column justify-content-center p-5 text-muted">
+                            <i class="fas fa-plus-circle fa-2x mb-2"></i>
+                            <p class="mb-0">New Project Coming Soon</p>
+                        </div>
+                    </div>
+            </div>
+            {% endif %}
+
+        </div>
+        </div>
     </section>
 
-    <section id="contact" class="container py-5 bg-light">
-        <h2 class="text-center"> Contact me </h2>
+    <section id="contact" class="container">
+        <h2 class="fw-bold text-center">Contact Me</h2>
+        <div class="row justify-content-center mt-5">
+            <div class="col-12 col-md-8 col-lg-5 px-4">
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form action="{% url 'home' %}" method="POST" class="shadow-sm p-4 bg-white rounded border">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Email Address</label>
+                        <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Subject</label>
+                        <input type="text" name="subject" class="form-control" placeholder="Project Inquiry" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Message</label>
+                        <textarea name="message" class="form-control" rows="4" placeholder="Your message"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 py-2 fw-bold">Send Message</button>
+                </form>
+            </div>
+        </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+    <footer class="py-5 bg-dark text-white mt-5">
+        <div class="container text-center">
+            <div class="mb-4">
+                <a href="https://github.com/Blank21-xD" target="_blank" class="text-white mx-3 h4"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/safal-lama-blank21" target="_blank" class="text-white mx-3 h4"><i
+                        class="fab fa-linkedin"></i></a>
+                <a href="https://instagram.com/safal_lama21" target="_blank" class="text-white mx-3 h4"><i
+                        class="fab fa-instagram"></i></a>
+            </div>
+            <p class="mb-0 text-secondary small">&copy; <span id="year"></span> Safal Lama</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'main/js/script.js' %}"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 
 </html>
