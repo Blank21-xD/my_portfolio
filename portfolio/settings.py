@@ -14,7 +14,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# In production, replace '*' with ['safalsweb.onrender.com']
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -25,12 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',  # Your app
+    'main',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Essential for Render CSS
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,7 +58,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 # Database
-# Using SQLite for now as per your current setup
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,7 +82,6 @@ USE_TZ = True
 # --- STATIC FILES CONFIGURATION ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# WhiteNoise storage for compressed/cached files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # --- EMAIL CONFIGURATION (Matches your Render Env Variables) ---
@@ -92,10 +89,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# These pull exactly from the keys shown in your Render dashboard image
+EMAIL_USE_SSL = False  # Explicitly False to avoid connection hang
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
 
-# Default primary key field type
+# Critical: prevents Gunicorn Worker Timeout crash by failing fast
+EMAIL_TIMEOUT = 10
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
