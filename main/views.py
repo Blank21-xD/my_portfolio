@@ -13,35 +13,53 @@ def home(request):
         subject = request.POST.get('subject')
         message_body = request.POST.get('message')
 
-        # Get keys from Render environment
+        # Mailjet API Keys from Environment Variables
         api_key = os.getenv('MAILJET_API_KEY')
         api_secret = os.getenv('MAILJET_SECRET_KEY')
 
-        # Mailjet API Payload
+        # This payload follows Mailjet's v3.1 Send API
         data = {
             'Messages': [
                 {
-                    "From": {"Email": "lama.safal21@gmail.com", "Name": "Portfolio Site"},
-                    "To": [{"Email": "lama.safal21@gmail.com", "Name": "Safal"}],
-                    "Subject": f"New Message: {subject}",
-                    "TextPart": f"Sender: {user_email}\n\nMessage: {message_body}",
+                    "From": {
+                        "Email": "lama.safal21@gmail.com",
+                        "Name": "Portfolio Contact Form"
+                    },
+                    "To": [
+                        {
+                            "Email": "lama.safal21@gmail.com",
+                            "Name": "Safal"
+                        }
+                    ],
+                    "Subject": f"New Inquiry: {subject}",
+                    "TextPart": f"Sender: {user_email}\n\nMessage:\n{message_body}",
+                    "HTMLPart": f"<h3>New Message from Portfolio</h3><p><b>From:</b> {user_email}</p><p><b>Message:</b><br>{message_body}</p>"
                 }
             ]
         }
 
-        # Send via HTTPS (Port 443) - This cannot be blocked!
-        response = requests.post(
-            "https://api.mailjet.com/v3.1/send",
-            auth=(api_key, api_secret),
-            json=data
-        )
+        try:
+            response = requests.post(
+                "https://api.mailjet.com/v3.1/send",
+                auth=(api_key, api_secret),
+                json=data,
+                timeout=10
+            )
 
-        if response.status_code == 200:
-            messages.success(request, "Success! Your message has been sent.")
-        else:
-            # Shows error if API keys are wrong
-            messages.error(request, f"Error: {response.status_code}")
-            print(f"Mailjet Error: {response.text}")
+            if response.status_code == 200:
+                messages.success(
+                    request, "Your message has been sent successfully!")
+            else:
+                # Log the error for you, but show a nice message to user
+                print(
+                    f"Mailjet API Error: {response.status_code} - {response.text}")
+                messages.error(
+                    request, "Oops! Our mail server is acting up. Please try again later.")
+
+        except requests.exceptions.RequestException as e:
+            print(f"Connection Error: {e}")
+            messages.error(
+                request, "Connection failed. Please check your internet and try again.")
 
         return redirect('home')
 
