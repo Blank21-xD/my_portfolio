@@ -56,14 +56,17 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 # DATABASE CONFIG
 if os.getenv('DATABASE_URL'):
+    # PRODUCTION: Use the PostgreSQL database provided by Render
     DATABASES = {
         'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL'),
             conn_max_age=600,
             conn_health_checks=True,
             engine='django.db.backends.postgresql'
         )
     }
 else:
+    # DEVELOPMENT: Use the simple SQLite database for local coding
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

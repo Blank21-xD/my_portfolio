@@ -64,17 +64,27 @@
                         <div class="card-body p-4 d-flex flex-column text-center">
                             <h5 class="card-title fw-bold">{{ project.title }}</h5>
                             <p class="card-text text-muted small">{{ project.description }}</p>
+
                             <div class="mt-auto">
                                 <div class="d-flex flex-wrap justify-content-center">
                                     <span class="badge bg-light text-dark border mb-3">{{ project.technology }}</span>
                                 </div>
 
-                                {% if project.github_link %}
-                                <a href="{{ project.github_link }}" target="_blank"
-                                    class="btn btn-sm btn-dark w-100 py-2">
-                                    <i class="fab fa-github me-1"></i> View Source
-                                </a>
-                                {% endif %}
+                                <div class="d-flex gap-2">
+                                    {% if project.github_link %}
+                                    <a href="{{ project.github_link }}" target="_blank"
+                                        class="btn btn-sm btn-dark flex-grow-1 py-2">
+                                        <i class="fab fa-github me-1"></i> Source
+                                    </a>
+                                    {% endif %}
+
+                                    {% if project.live_link %}
+                                    <a href="{{ project.live_link }}" target="_blank"
+                                        class="btn btn-sm btn-success flex-grow-1 py-2">
+                                        <i class="fas fa-external-link-alt me-1"></i> Live Demo
+                                    </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
