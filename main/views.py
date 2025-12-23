@@ -6,7 +6,6 @@ from .models import Project
 
 
 def home(request):
-    # Fetch projects for the display
     projects = Project.objects.all().order_by('-created_at')
 
     if request.method == "POST":
@@ -14,30 +13,25 @@ def home(request):
         subject = request.POST.get('subject')
         message = request.POST.get('message')
 
-        # Combine info for the email body
         full_message = f"New Feedback from: {email}\n\nSubject: {subject}\n\nMessage:\n{message}"
 
         try:
             send_mail(
                 subject=f"Portfolio Inquiry: {subject}",
                 message=full_message,
-                from_email=settings.DEFAULT_FROM_EMAIL,  # Set in settings.py
-                # Sends TO your gmail
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[settings.EMAIL_HOST_USER],
                 fail_silently=False,
             )
             messages.success(
                 request, "Thank you! Your message has been sent successfully.")
         except Exception as e:
-            # This helps you see the error in Render logs if it fails
-            print(f"Email Error: {e}")
-            messages.error(
-                request, "Oops! Something went wrong. Please try again later.")
+            # CHANGE: This will now show the REAL error on your website screen
+            error_msg = str(e)
+            print(f"Email Error: {error_msg}")
+            messages.error(request, f"Email Error Details: {error_msg}")
 
-        # Always redirect after POST to clear the form and prevent double-sending
         return redirect('home')
 
-    context = {
-        'projects': projects
-    }
+    context = {'projects': projects}
     return render(request, 'main/home.html', context)
