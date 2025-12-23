@@ -1,7 +1,7 @@
+import os
+import requests
 from django.shortcuts import render, redirect
-from django.core.mail import send_mail
 from django.contrib import messages
-from django.conf import settings
 from .models import Project
 
 
@@ -9,29 +9,40 @@ def home(request):
     projects = Project.objects.all().order_by('-created_at')
 
     if request.method == "POST":
-        email = request.POST.get('email')
+        user_email = request.POST.get('email')
         subject = request.POST.get('subject')
-        message = request.POST.get('message')
+        message_body = request.POST.get('message')
 
-        full_message = f"New Feedback from: {email}\n\nSubject: {subject}\n\nMessage:\n{message}"
+        # Get keys from Render environment
+        api_key = os.getenv('MAILJET_API_KEY')
+        api_secret = os.getenv('MAILJET_SECRET_KEY')
 
-        try:
-            send_mail(
-                subject=f"Portfolio Inquiry: {subject}",
-                message=full_message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.EMAIL_HOST_USER],
-                fail_silently=False,
-            )
-            messages.success(
-                request, "Thank you! Your message has been sent successfully.")
-        except Exception as e:
-            # CHANGE: This will now show the REAL error on your website screen
-            error_msg = str(e)
-            print(f"Email Error: {error_msg}")
-            messages.error(request, f"Email Error Details: {error_msg}")
+        # Mailjet API Payload
+        data = {
+            'Messages': [
+                {
+                    "From": {"Email": "lama.safal21@gmail.com", "Name": "Portfolio Site"},
+                    "To": [{"Email": "lama.safal21@gmail.com", "Name": "Safal"}],
+                    "Subject": f"New Message: {subject}",
+                    "TextPart": f"Sender: {user_email}\n\nMessage: {message_body}",
+                }
+            ]
+        }
+
+        # Send via HTTPS (Port 443) - This cannot be blocked!
+        response = requests.post(
+            "https://api.mailjet.com/v3.1/send",
+            auth=(api_key, api_secret),
+            json=data
+        )
+
+        if response.status_code == 200:
+            messages.success(request, "Success! Your message has been sent.")
+        else:
+            # Shows error if API keys are wrong
+            messages.error(request, f"Error: {response.status_code}")
+            print(f"Mailjet Error: {response.text}")
 
         return redirect('home')
 
-    context = {'projects': projects}
-    return render(request, 'main/home.html', context)
+    return render(request, 'main/home.html', {'projects': projects})
