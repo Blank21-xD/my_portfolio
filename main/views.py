@@ -8,8 +8,8 @@ def home(request):
    # For the projects to always be on the website
     projects = [
         {
-            'title': 'Professional Django Portfolio',
-            'description': 'A full-stack portfolio application featuring a Django backend, Mailjet API integration for contact forms, and automated deployment via Render.',
+            'title': 'My Django Portfolio',
+            'description': 'This website made using Python with Django and HTML with CSS with feature of email',
             'url': 'https://github.com/Blank21-xD/my_portfolio.git',
         }
     ]
