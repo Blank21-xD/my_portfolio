@@ -131,3 +131,11 @@ img.shadow-sm {
 img.shadow-sm:hover {
     transform: scale(1.1);
 }
+
+
+.developer-icon-container i {
+    display: block !important;
+    color: white !important;
+    font-size: 4rem !important;
+    visibility: visible !important;
+}
