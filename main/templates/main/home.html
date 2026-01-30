@@ -22,6 +22,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto text-center">
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
                     <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                 </ul>
@@ -29,95 +30,87 @@
         </div>
     </nav>
 
-    <header class="text-center bg-white border-bottom px-3">
+    <header class="text-center bg-white border-bottom py-5">
         <div class="container">
+            <div class="developer-icon-container mx-auto mb-4 shadow-lg">
+                <i class="fas fa-user-code fa-4x text-white"></i>
+            </div>
             <h1 class="display-3 fw-bold">Hello! I'm Safal Lama.</h1>
-            <p class="lead text-muted mx-auto" style="max-width: 700px;">
-                A passionate Full-Stack Developer specializing in building robust web applications with Django.
-            </p>
+
         </div>
     </header>
 
-    <section id="about" class="container text-center">
-        <h2 class="display-5 fw-bold text-center">About Me</h2>
-        <h3 class="h5 text-muted px-3 fw-normal">Robust and scalable full-stack web application designer</h3>
+    <section id="about" class="container py-5 text-center">
+        <h2 class="display-5 fw-bold mb-4">About Me</h2>
+        <p class="lead text-muted mx-auto" style="max-width: 700px;">
+            A passionate Full-Stack Developer specializing in building robust web applications with Django.
+        </p>
 
-
-        <p class="fw-bold mt-4 text-secondary">Familiar with:</p>
-
-        <div class="d-flex flex-wrap justify-content-center">
-            <span class="badge bg-primary"><i class="fab fa-python me-2"></i> Python</span>
-            <span class="badge bg-success"><i class="fas fa-server me-2"></i> Django</span>
-            <span class="badge bg-danger"><i class="fab fa-html5 me-2"></i> HTML5</span>
-            <span class="badge bg-info text-dark"><i class="fab fa-css3-alt me-2"></i> CSS3</span>
-            <span class="badge bg-warning text-dark"><i class="fab fa-js me-2"></i> JavaScript</span>
+        <p class="fw-bold text-secondary text-uppercase small letter-spacing-1">Familiar with:</p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <span class="badge bg-primary px-3 py-2"><i class="fab fa-python me-2"></i> Python</span>
+            <span class="badge bg-success px-3 py-2"><i class="fas fa-server me-2"></i> Django</span>
+            <span class="badge bg-danger px-3 py-2"><i class="fab fa-html5 me-2"></i> HTML5</span>
+            <span class="badge bg-info text-dark px-3 py-2"><i class="fab fa-css3-alt me-2"></i> CSS3</span>
+            <span class="badge bg-warning text-dark px-3 py-2"><i class="fab fa-js me-2"></i> JavaScript</span>
         </div>
     </section>
 
-    <section id="experience" class="py-5">
+    <section id="experience" class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold">Professional Experience</h2>
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center mb-3 flex-wrap">
-
                         <img src="{% static 'main/panacea.png' %}" alt="Panacea Logo"
                             style="width: 60px; height: 60px; object-fit: contain;" class="me-3 rounded shadow-sm">
-
                         <div class="flex-grow-1">
                             <h4 class="fw-bold mb-0">Backend Development Intern</h4>
                             <h5 class="text-muted mb-0">Panacea Limited</h5>
                         </div>
-
-                        <div class="mt-2 mt-md-0">
-                            <span class="badge bg-dark px-3 py-2">Nov 2024 - Jan 2025</span>
+                        <div class="mt-2 mt-md-0 text-md-end">
+                            <span class="badge bg-dark px-3 py-2">Dec 2024 - Mar 2025</span>
                         </div>
                     </div>
-
                     <hr>
-
                     <p class="mb-2">
                         Worked with the development team to build and optimize an <strong>Inventory Management
                             System</strong> using <strong>Python</strong> and <strong>Django</strong>.
                     </p>
                     <p class="text-muted small italic">
-                        <i class="fas fa-check-circle me-1"></i> Gained hands-on experience in database management and
-                        professional version control (Git) workflows.
+                        <i class="fas fa-check-circle me-1 text-success"></i> Gained hands-on experience in database
+                        management and professional version control (Git) workflows.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="projects" class="bg-white">
+    <section id="projects" class="py-5 bg-white">
         <div class="container">
-            <h2 class="display-5 fw-bold text-center">My Projects</h2>
+            <h2 class="display-5 fw-bold text-center mb-5">My Projects</h2>
             <div class="row g-4 mt-2">
-
                 {% for project in projects %}
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 shadow-sm border-0">
                         <div class="card-body p-4 d-flex flex-column text-center">
-                            <h5 class="card-title fw-bold">{{ project.title }}</h5>
+                            <h5 class="card-title fw-bold text-uppercase">{{ project.title }}</h5>
                             <p class="card-text text-muted small">{{ project.description }}</p>
-
                             <div class="mt-auto">
-                                <div class="d-flex flex-wrap justify-content-center">
-                                    <span class="badge bg-light text-dark border mb-3">{{ project.technology }}</span>
+                                <div class="d-flex flex-wrap justify-content-center mb-3">
+                                    <span class="badge bg-light text-dark border">{{ project.technology }}</span>
                                 </div>
-
                                 <div class="d-flex gap-2">
                                     {% if project.github_link %}
                                     <a href="{{ project.github_link }}" target="_blank"
                                         class="btn btn-sm btn-dark flex-grow-1 py-2">
-                                        <i class="fab fa-github me-1"></i> Source
+                                        <i class="fab fa-github me-1"></i> Code
                                     </a>
                                     {% endif %}
-
                                     {% if project.live_link %}
                                     <a href="{{ project.live_link }}" target="_blank"
                                         class="btn btn-sm btn-success flex-grow-1 py-2">
-                                        <i class="fas fa-external-link-alt me-1"></i> Live Demo
+                                        <i class="fas fa-external-link-alt me-1"></i> Demo
                                     </a>
                                     {% endif %}
                                 </div>
@@ -128,55 +121,58 @@
                 {% endfor %}
 
                 {% if projects.count < 3 %} <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 bg-light text-center border-dashed">
+                    <div class="card h-100 shadow-sm border-0 bg-light text-center"
+                        style="border: 2px dashed #dee2e6 !important;">
                         <div class="card-body d-flex flex-column justify-content-center p-5 text-muted">
                             <i class="fas fa-plus-circle fa-2x mb-2"></i>
-                            <p class="mb-0">New Project Coming Soon</p>
+                            <p class="mb-0">Building something new...</p>
                         </div>
                     </div>
             </div>
             {% endif %}
-
         </div>
         </div>
     </section>
 
-    <section id="contact" class="container">
-        <h2 class="fw-bold text-center">Contact Me</h2>
-        <div class="row justify-content-center mt-5">
-            <div class="col-12 col-md-8 col-lg-5 px-4">
+    <section id="contact" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5">Contact Me</h2>
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-md-8 col-lg-5 px-4">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
 
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <form action="{% url 'home' %}" method="POST" class="shadow-sm p-4 bg-white rounded border">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="name@example.com"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Subject</label>
+                            <input type="text" name="subject" class="form-control" placeholder="Project Inquiry"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Message</label>
+                            <textarea name="message" class="form-control" rows="4" placeholder="Your message"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 py-2 fw-bold shadow-sm">Send Message</button>
+                    </form>
                 </div>
-                {% endfor %}
-                {% endif %}
-
-                <form action="{% url 'home' %}" method="POST" class="shadow-sm p-4 bg-white rounded border">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Email Address</label>
-                        <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Subject</label>
-                        <input type="text" name="subject" class="form-control" placeholder="Project Inquiry" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Message</label>
-                        <textarea name="message" class="form-control" rows="4" placeholder="Your message"
-                            required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-dark w-100 py-2 fw-bold">Send Message</button>
-                </form>
             </div>
         </div>
     </section>
 
-    <footer class="py-5 bg-dark text-white mt-5">
+    <footer class="py-5 bg-dark text-white">
         <div class="container text-center">
             <div class="mb-4">
                 <a href="https://github.com/Blank21-xD" target="_blank" class="text-white mx-3 h4"><i

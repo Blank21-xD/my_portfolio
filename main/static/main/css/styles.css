@@ -1,38 +1,133 @@
-/* styles.css */
+html {
+    scroll-behavior: smooth;
+}
 
-/* Global Section Spacing */
 section {
     padding: 100px 0 !important;
 }
 
 header {
     padding: 120px 0 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
 }
 
-/* Center all section titles */
+/* --- Typography --- */
 h2.display-5 {
     margin-bottom: 3rem !important;
     text-align: center !important;
+    font-weight: 700;
+    color: #212529;
 }
 
-/* Fix the 'Familiar with' spacing */
 .familiar-text {
     margin-top: 40px !important;
     margin-bottom: 20px !important;
     font-weight: bold;
     color: #6c757d;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* Badge styling */
+/* --- Components --- */
 .badge {
     margin: 8px !important;
     padding: 12px 20px !important;
     border-radius: 50px !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-/* Push projects down slightly from the badges */
+.badge:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+.card {
+    border: none !important;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 15px !important;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* --- The Developer Icon (The Glow) --- */
+.developer-icon-container {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(145deg, #232526, #414345);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 3px solid #343a40;
+    transition: all 0.4s ease;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.developer-icon-container::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #00d2ff, #3a7bd5, #00d2ff);
+    background-size: 200% 200%;
+    z-index: -1;
+    opacity: 0.4;
+    filter: blur(10px);
+    transition: all 0.4s ease;
+    animation: glow-animation 3s linear infinite;
+    /* Suble moving glow */
+}
+
+@keyframes glow-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.developer-icon-container:hover {
+    transform: scale(1.05) rotate(5deg);
+    border-color: #00d2ff;
+}
+
+.developer-icon-container:hover::before {
+    opacity: 0.9;
+    filter: blur(15px);
+}
+
+.developer-icon-container i {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* --- Project & Images --- */
 #projects {
-    margin-top: 50px;
-    background-color: #fff;
+    background-color: #ffffff;
+}
+
+img.shadow-sm {
+    transition: transform 0.3s ease;
+}
+
+img.shadow-sm:hover {
+    transform: scale(1.1);
 }
