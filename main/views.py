@@ -10,7 +10,8 @@ def home(request):
         {
             'title': 'My Django Portfolio',
             'description': 'This website made using Python with Django and HTML with CSS with feature of email',
-            'url': 'https://github.com/Blank21-xD/my_portfolio.git',
+            'github_link': 'https://github.com/Blank21-xD/my_portfolio.git',
+            'technology': 'Django, Python, HTML, CSS',
         }
     ]
 
