@@ -2,22 +2,26 @@ import os
 import requests
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Project
 
 
 def home(request):
-    projects = Project.objects.all().order_by('-created_at')
+   # For the projects to always be on the website
+    projects = [
+        {
+            'title': 'Professional Django Portfolio',
+            'description': 'A full-stack portfolio application featuring a Django backend, Mailjet API integration for contact forms, and automated deployment via Render.',
+            'url': 'https://github.com/Blank21-xD/my_portfolio.git',
+        }
+    ]
 
     if request.method == "POST":
         user_email = request.POST.get('email')
         subject = request.POST.get('subject')
         message_body = request.POST.get('message')
 
-        # Mailjet API Keys from Environment Variables
         api_key = os.getenv('MAILJET_API_KEY')
         api_secret = os.getenv('MAILJET_SECRET_KEY')
 
-        # This payload follows Mailjet's v3.1 Send API
         data = {
             'Messages': [
                 {
@@ -50,7 +54,6 @@ def home(request):
                 messages.success(
                     request, "Your message has been sent successfully!")
             else:
-                # Log the error for you, but show a nice message to user
                 print(
                     f"Mailjet API Error: {response.status_code} - {response.text}")
                 messages.error(
@@ -63,4 +66,5 @@ def home(request):
 
         return redirect('home')
 
+    # Pass the hardcoded 'projects' list to your template
     return render(request, 'main/home.html', {'projects': projects})
